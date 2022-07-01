@@ -26,9 +26,8 @@ WORKDIR /
 
 COPY --from=builder /api /api
 
-ENV SERVER_PORT=3000
-
-EXPOSE $SERVER_PORT
+EXPOSE 443
+EXPOSE 80
 
 USER nonroot:nonroot
 

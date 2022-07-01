@@ -2,22 +2,19 @@ package main
 
 import (
 	"fmt"
+	"golang.org/x/crypto/acme/autocert"
 	"log"
 	"net/http"
-	"os"
-	"strconv"
-
-	"golang.org/x/crypto/acme/autocert"
 )
 
-const DefaultServerPort = 8080
+//const DefaultServerPort = 8080
 
 func main() {
-	serverPort, ok := os.LookupEnv("SERVER_PORT")
-	if serverPort == "" || !ok {
-		serverPort = strconv.Itoa(DefaultServerPort)
-	}
-	fmt.Println("Server running on port " + serverPort)
+	//serverPort, ok := os.LookupEnv("SERVER_PORT")
+	//if serverPort == "" || !ok {
+	//	serverPort = strconv.Itoa(DefaultServerPort)
+	//}
+	//fmt.Println("Server running on port " + serverPort)
 
 	m := &autocert.Manager{
 		Cache:      autocert.DirCache("secret-dir"),
@@ -36,6 +33,6 @@ func main() {
 		TLSConfig: m.TLSConfig(),
 	}
 
-	go http.ListenAndServe(":"+serverPort, m.HTTPHandler(nil))
+	go http.ListenAndServe(":80", m.HTTPHandler(nil))
 	log.Fatal(s.ListenAndServeTLS("", ""))
 }
