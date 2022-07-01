@@ -23,7 +23,7 @@ func main() {
 		Cache:      autocert.DirCache("secret-dir"),
 		Prompt:     autocert.AcceptTOS,
 		Email:      "hello@igormichalak.com",
-		HostPolicy: autocert.HostWhitelist("igormichalak.com", "www.igormichalak.com"),
+		HostPolicy: autocert.HostWhitelist("igormichalak.com", "www.igormichalak.com", "api.igormichalak.com"),
 	}
 
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -31,10 +31,11 @@ func main() {
 	})
 
 	s := &http.Server{
-		Addr:      ":https",
+		Addr:      ":443",
 		Handler:   handler,
 		TLSConfig: m.TLSConfig(),
 	}
 
+	go http.ListenAndServe(":"+serverPort, m.HTTPHandler(nil))
 	log.Fatal(s.ListenAndServeTLS("", ""))
 }
