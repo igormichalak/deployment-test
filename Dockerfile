@@ -31,4 +31,6 @@ EXPOSE 80
 
 USER nonroot:nonroot
 
+VOLUME ["/secret-dir"]
+
 ENTRYPOINT ["/api"]
